@@ -2,28 +2,37 @@ package auth
 
 import (
 	"net/http"
+	"strings"
 	"testing"
-
-	"github.com/google/go-cmp/cmp"
 )
 
 func TestGetAPIKey(t *testing.T) {
 	tests := map[string]struct {
-		header http.Header
-		value  string
+		key           string
+		value         string
+		expected      string
+		expectedError string
 	}{
-		"Simple API Key": {header: http.Header{"Authorization": {"ApiKey some_token"}}, value: "some_token"},
+		"Simple API Key": {key: "Authorization", value: "ApiKey some_token", expected: "some_token"},
 	}
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			val, err := GetAPIKey(tc.header)
+			header := http.Header{}
+			header.Add(tc.key, tc.value)
+
+			output, err := GetAPIKey(header)
 			if err != nil {
-				t.Fatalf("%v", err)
+				if strings.Contains(err.Error(), tc.expectedError) {
+					return
+				}
+				t.Errorf("Unexpected: TestGetAPIKey:%v\n", err)
+				return
 			}
-			diff := cmp.Diff(tc.value, val)
-			if diff != "" {
-				t.Fatalf(diff)
+
+			if output != tc.expected {
+				t.Errorf("Unexpected: TestGetAPIKey:%s", output)
+				return
 			}
 		})
 	}
