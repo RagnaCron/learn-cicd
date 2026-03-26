@@ -13,7 +13,7 @@ func TestGetAPIKey(t *testing.T) {
 		expected      string
 		expectedError string
 	}{
-		"Simple API Key":                   {key: "Authorization", value: "ApiKey some_token", expected: "some_token"},
+		"Simple API Key":                   {key: "Authorization", value: "ApiKey som_token", expected: "some_token"},
 		"No Auth header":                   {key: "Authorization", expectedError: "no authorization header"},
 		"Malformed Auth Header":            {key: "Authorization", value: "-", expectedError: "malformed authorization header"},
 		"Malformed Auth Header; No ApiKey": {key: "Authorization", value: "Bearer xxxxxx", expectedError: "malformed authorization header"},
