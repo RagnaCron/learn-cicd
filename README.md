@@ -1,5 +1,7 @@
 # learn-cicd (Notely)
 
+![Tests](https://github.com/RagnaCron/learn-cicd/workflows/ci.yaml/badge.svg)
+
 This repo contains the starter code for the "Notely" application for the "Learn CICD" course on [Boot.dev](https://boot.dev).
 
 ## Local Development
